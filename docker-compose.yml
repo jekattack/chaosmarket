@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      - JWT_SECRET=changeme
+      - JWT_EXPIRES_IN=3600s
+      - DATABASE_FILE=/data/database.sqlite
+    volumes:
+      - ./backend/data:/data
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    environment:
+      - API_BASE_URL=http://backend:3000
+    depends_on:
+      - backend
+    restart: unless-stopped
