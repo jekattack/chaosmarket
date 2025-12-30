@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'providers/auth_provider.dart';
 import 'providers/market_provider.dart';
 import 'screens/login_screen.dart';
 import 'screens/market_list_screen.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load();
   runApp(
     MultiProvider(
       providers: [

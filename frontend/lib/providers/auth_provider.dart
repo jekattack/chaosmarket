@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../config/api_config.dart';
 
 class AuthProvider with ChangeNotifier {
   bool _isAuthenticated = false;
@@ -12,12 +13,12 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> login(String email, String password) async {
     final response = await http.post(
-      Uri.parse('http://localhost:3000/auth/login'),
+      Uri.parse('$apiBaseUrl/auth/login'),
       headers: {'Content-Type': 'application/json'},
       body: json.encode({'email': email, 'password': password}),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final data = json.decode(response.body);
       _token = data['access_token'];
       _isAuthenticated = true;
@@ -29,11 +30,12 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> register(String email, String password) async {
+  Future<void> register(String email, String password, {String? name}) async {
+    final displayName = name ?? email.split('@').first;
     final response = await http.post(
-      Uri.parse('http://localhost:3000/auth/register'),
+      Uri.parse('$apiBaseUrl/auth/register'),
       headers: {'Content-Type': 'application/json'},
-      body: json.encode({'email': email, 'password': password}),
+      body: json.encode({'email': email, 'password': password, 'name': displayName}),
     );
 
     if (response.statusCode == 201) {

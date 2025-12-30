@@ -1,8 +1,7 @@
-import { Controller, Post, Body, UseGuards, Request, Get } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Request, Get, UsePipes, ValidationPipe } from '@nestjs/common';
 import { BetsService } from './bets.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateBetDto } from './dto/create-bet.dto';
-import { Body, UsePipes, ValidationPipe } from '@nestjs/common';
 
 @Controller('bets')
 export class BetsController {

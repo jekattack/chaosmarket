@@ -27,8 +27,26 @@ export class BetsService {
     const outcome = market.outcomes.find(o => o.id === outcomeId);
     if (!outcome) throw new BadRequestException('Invalid outcome');
 
+    if (typeof amount !== 'number' || amount <= 0) {
+      throw new BadRequestException('Invalid amount');
+    }
+
     const bet = this.betRepository.create({ user, market, outcomeId, amount });
-    return this.betRepository.save(bet);
+    const saved = await this.betRepository.save(bet);
+
+    // Return a sanitized object to avoid circular JSON and leaking relations
+    return {
+      id: saved.id,
+      market: {
+        id: market.id,
+        question: market.question,
+        outcomes: market.outcomes,
+        resolved: market.resolved,
+        winningOutcomeId: market.winningOutcomeId,
+      },
+      outcomeId: saved.outcomeId,
+      amount: saved.amount,
+    };
   }
 
   async findByUser(userId: number) {

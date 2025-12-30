@@ -4,6 +4,7 @@ import 'dart:convert';
 import '../models/market.dart';
 import '../models/bet.dart';
 import 'auth_provider.dart';
+import '../config/api_config.dart';
 
 class MarketProvider with ChangeNotifier {
   List<Market> _markets = [];
@@ -21,7 +22,7 @@ class MarketProvider with ChangeNotifier {
     _error = null;
     notifyListeners();
     try {
-      final response = await http.get(Uri.parse('http://localhost:3000/markets'));
+      final response = await http.get(Uri.parse('$apiBaseUrl/markets'));
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as List;
         _markets = data.map((json) => Market.fromJson(json)).toList();
@@ -38,7 +39,7 @@ class MarketProvider with ChangeNotifier {
 
   Future<void> placeBet(int marketId, int outcomeId, double amount, AuthProvider auth) async {
     final response = await http.post(
-      Uri.parse('http://localhost:3000/bets'),
+      Uri.parse('$apiBaseUrl/bets'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${auth.token}',
@@ -65,7 +66,7 @@ class MarketProvider with ChangeNotifier {
     notifyListeners();
     try {
       final response = await http.get(
-        Uri.parse('http://localhost:3000/bets/user'),
+        Uri.parse('$apiBaseUrl/bets/user'),
         headers: {'Authorization': 'Bearer ${auth.token}'},
       );
 

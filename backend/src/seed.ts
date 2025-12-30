@@ -2,13 +2,14 @@ import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import { User } from './entities/user.entity';
 import { Market } from './entities/market.entity';
+import { Bet } from './entities/bet.entity';
 import * as bcrypt from 'bcrypt';
 
 async function run() {
   const dataSource = new DataSource({
     type: 'sqlite',
     database: 'database.sqlite',
-    entities: [User, Market],
+    entities: [User, Market, Bet],
     synchronize: true,
   });
 

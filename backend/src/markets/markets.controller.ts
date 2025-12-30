@@ -1,4 +1,3 @@
-@Controller('markets')
 import { Controller, Get, Post, Body, Param, Patch, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { MarketsService } from './markets.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';

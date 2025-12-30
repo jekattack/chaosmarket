@@ -11,8 +11,4 @@ export class CreateBetDto {
   @Min(0.01)
   amount: number;
 }
-export class CreateBetDto {
-  marketId: number;
-  outcomeId: number;
-  amount: number;
-}
+

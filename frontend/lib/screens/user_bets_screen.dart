@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/market_provider.dart';
 import '../providers/auth_provider.dart';
+import '../models/market.dart';
 
 class UserBetsScreen extends StatefulWidget {
   const UserBetsScreen({super.key});
@@ -37,8 +38,14 @@ class _UserBetsScreenState extends State<UserBetsScreen> {
                       itemCount: marketProvider.userBets.length,
                       itemBuilder: (context, idx) {
                         final b = marketProvider.userBets[idx];
+                        // Try to resolve market from provider by marketId
+                        final market = marketProvider.markets.firstWhere(
+                          (m) => m.id == b.marketId,
+                          orElse: () => Market(id: b.marketId, question: 'Markt #${b.marketId}', outcomes: [], resolved: false, winningOutcomeId: null),
+                        );
+
                         return ListTile(
-                          title: Text(b.market?.question ?? 'Markt #${b.market?.id ?? ''}'),
+                          title: Text(market.question),
                           subtitle: Text('Outcome: ${b.outcomeId} — Betrag: ${b.amount}'),
                         );
                       },

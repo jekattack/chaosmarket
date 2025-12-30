@@ -4,6 +4,7 @@ import '../providers/auth_provider.dart';
 import '../providers/market_provider.dart';
 import '../models/market.dart';
 import 'market_detail_screen.dart';
+import 'user_bets_screen.dart';
 
 class MarketListScreen extends StatefulWidget {
   const MarketListScreen({super.key});
@@ -41,7 +42,7 @@ class _MarketListScreenState extends State<MarketListScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const UserBetsScreen()),
+                MaterialPageRoute(builder: (context) => UserBetsScreen()),
               );
             },
           ),
